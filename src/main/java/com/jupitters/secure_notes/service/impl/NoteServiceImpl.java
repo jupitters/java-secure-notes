@@ -29,5 +29,13 @@ public class NoteServiceImpl implements NoteService {
         return noteRepository.save(note);
     }
 
+    @Override
+    public void deleteNoteForUser(Long noteId, String username){
+        Note note = noteRepository.findById(noteId)
+                .orElseThrow(() -> new RuntimeException("Note not found"));
+        noteRepository.delete(note);
+    }
+
+
 
 }

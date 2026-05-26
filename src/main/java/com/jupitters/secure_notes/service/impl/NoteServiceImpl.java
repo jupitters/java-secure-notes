@@ -6,6 +6,8 @@ import com.jupitters.secure_notes.service.NoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class NoteServiceImpl implements NoteService {
@@ -34,6 +36,12 @@ public class NoteServiceImpl implements NoteService {
         Note note = noteRepository.findById(noteId)
                 .orElseThrow(() -> new RuntimeException("Note not found"));
         noteRepository.delete(note);
+    }
+
+    @Override
+    public List<Note> getNotesForUser(String username){
+        List<Note> personalNotes = noteRepository.findByOwnerUsername(username);
+        return personalNotes;
     }
 
 

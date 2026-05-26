@@ -26,4 +26,10 @@ public class NoteController {
         String username = userDetails.getUsername();
         return noteService.getNotesForUser(username);
     }
+
+    @PutMapping("/{noteId}")
+    public Note updateNote(@PathVariable Long noteId, @RequestBody String content, @AuthenticationPrincipal UserDetails userDetails){
+        String username = userDetails.getUsername();
+        return noteService.updateNoteForUser(noteId, content, username);
+    }
 }

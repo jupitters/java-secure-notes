@@ -32,4 +32,10 @@ public class NoteController {
         String username = userDetails.getUsername();
         return noteService.updateNoteForUser(noteId, content, username);
     }
+
+    @DeleteMapping("/{noteId}")
+    public void deleteNote(@PathVariable Long noteId, @AuthenticationPrincipal UserDetails userDetails){
+        String username = userDetails.getUsername();
+        noteService.deleteNoteForUser(noteId, username);
+    }
 }

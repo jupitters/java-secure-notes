@@ -3,9 +3,20 @@ package com.jupitters.secure_notes.service.impl;
 import com.jupitters.secure_notes.models.AppRole;
 import com.jupitters.secure_notes.models.Role;
 import com.jupitters.secure_notes.models.User;
+import com.jupitters.secure_notes.repository.RoleRepository;
+import com.jupitters.secure_notes.repository.UserRepository;
 import com.jupitters.secure_notes.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Service
 public class UserServiceImpl implements UserService {
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     public void updateUserRole(Long userId, String roleName) {
         User user = userRepository.findById(userId).orElseThrow(()

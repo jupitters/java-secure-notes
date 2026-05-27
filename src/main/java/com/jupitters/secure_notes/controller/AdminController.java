@@ -1,16 +1,19 @@
 package com.jupitters.secure_notes.controller;
 
 import com.jupitters.secure_notes.models.User;
+import com.jupitters.secure_notes.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @GetMapping("/getusers")
     public ResponseEntity<List<User>> getAllUsers() {

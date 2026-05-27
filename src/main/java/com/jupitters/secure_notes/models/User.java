@@ -41,8 +41,8 @@ public class User {
     @JsonIgnore
     private String password;
 
-    private boolean acountNonLocked = true;
-    private boolean acountNonExpired = true;
+    private boolean accountNonLocked = true;
+    private boolean accountNonExpired = true;
     private boolean credentialsNonExpired = true;
     private boolean enabled = true;
 

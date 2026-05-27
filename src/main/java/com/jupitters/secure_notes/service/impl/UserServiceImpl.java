@@ -1,5 +1,6 @@
 package com.jupitters.secure_notes.service.impl;
 
+import com.jupitters.secure_notes.dto.UserDTO;
 import com.jupitters.secure_notes.models.AppRole;
 import com.jupitters.secure_notes.models.Role;
 import com.jupitters.secure_notes.models.User;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -41,9 +43,29 @@ public class UserServiceImpl implements UserService {
         return convertToDto(user);
     }
 
+    private UserDTO convertToDto(User user) {
+        return new UserDTO(
+                user.getUserId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.isAccountNonLocked(),
+                user.isAccountNonExpired(),
+                user.isCredentialsNonExpired(),
+                user.isEnabled(),
+                user.getCredentialsExpiryDate(),
+                user.getAccountExpiryDate(),
+                user.getTwoFactorSecret(),
+                user.isTwoFactorEnabled(),
+                user.getSignUpMethod(),
+                user.getRole(),
+                user.getCreatedDate(),
+                user.getUpdatedDate()
+        );
+    }
+
     @Override
     public User findByUsername(String username) {
-        Optional<User> user = userRepository.findByUserName(username);
+        Optional<User> user = userRepository.findByUsername(username);
         return user.orElseThrow(() -> new RuntimeException("User not found with username: " + username));
     }
 }

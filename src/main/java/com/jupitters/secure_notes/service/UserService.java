@@ -1,5 +1,6 @@
 package com.jupitters.secure_notes.service;
 
+import com.jupitters.secure_notes.dto.UserDTO;
 import com.jupitters.secure_notes.models.User;
 
 import java.util.List;

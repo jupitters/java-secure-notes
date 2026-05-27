@@ -1,5 +1,6 @@
 package com.jupitters.secure_notes.controller;
 
+import com.jupitters.secure_notes.dto.UserDTO;
 import com.jupitters.secure_notes.models.User;
 import com.jupitters.secure_notes.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

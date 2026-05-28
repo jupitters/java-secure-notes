@@ -66,8 +66,8 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 
-    public User(String userName, String email, String password) {
-        this.username = userName;
+    public User(String username, String email, String password) {
+        this.username = username;
         this.email = email;
         this.password = password;
     }

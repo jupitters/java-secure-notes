@@ -2,11 +2,15 @@ package com.jupitters.secure_notes.controller;
 
 import com.jupitters.secure_notes.dto.request.LoginRequest;
 import com.jupitters.secure_notes.dto.response.LoginResponse;
+import com.jupitters.secure_notes.models.AppRole;
+import com.jupitters.secure_notes.models.Role;
+import com.jupitters.secure_notes.models.User;
 import com.jupitters.secure_notes.repository.RoleRepository;
 import com.jupitters.secure_notes.repository.UserRepository;
 import com.jupitters.secure_notes.security.jwt.JwtUtils;
 import com.jupitters.secure_notes.security.services.UserDetailsImpl;
 import com.jupitters.secure_notes.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +25,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -78,5 +84,51 @@ public class AuthController {
 
         // Return the response entity with the JWT token included in the response body
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+        }
+
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+        }
+
+        // Create new user's account
+        User user = new User(signUpRequest.getUsername(),
+                signUpRequest.getEmail(),
+                encoder.encode(signUpRequest.getPassword()));
+
+        Set<String> strRoles = signUpRequest.getRole();
+        Role role;
+
+        if (strRoles == null || strRoles.isEmpty()) {
+            role = roleRepository.findByRoleName(AppRole.ROLE_USER)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        } else {
+            String roleStr = strRoles.iterator().next();
+            if (roleStr.equals("admin")) {
+                role = roleRepository.findByRoleName(AppRole.ROLE_ADMIN)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            } else {
+                role = roleRepository.findByRoleName(AppRole.ROLE_USER)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            }
+
+            user.setAccountNonLocked(true);
+            user.setAccountNonExpired(true);
+            user.setCredentialsNonExpired(true);
+            user.setEnabled(true);
+            user.setCredentialsExpiryDate(LocalDate.now().plusYears(1));
+            user.setAccountExpiryDate(LocalDate.now().plusYears(1));
+            user.setTwoFactorEnabled(false);
+            user.setSignUpMethod("email");
+        }
+        user.setRole(role);
+        userRepository.save(user);
+
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 }

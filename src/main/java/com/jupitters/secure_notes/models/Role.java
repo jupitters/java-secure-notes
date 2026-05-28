@@ -18,10 +18,12 @@ import java.util.Set;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "role_id")
     private Long roleId;
 
     @ToString.Exclude
     @Enumerated(EnumType.STRING)
+    @Column(length = 20, name = "role_name")
     private AppRole roleName;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})

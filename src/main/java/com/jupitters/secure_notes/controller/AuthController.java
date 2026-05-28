@@ -1,5 +1,7 @@
 package com.jupitters.secure_notes.controller;
 
+import com.jupitters.secure_notes.dto.request.LoginRequest;
+import com.jupitters.secure_notes.dto.response.LoginResponse;
 import com.jupitters.secure_notes.repository.RoleRepository;
 import com.jupitters.secure_notes.repository.UserRepository;
 import com.jupitters.secure_notes.security.jwt.JwtUtils;
@@ -20,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -42,9 +46,6 @@ public class AuthController {
 
     @Autowired
     UserService userService;
-
-    @Autowired
-    AuthUtil authUtil;
 
 
     @PostMapping("/public/signin")

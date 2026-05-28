@@ -47,8 +47,7 @@ public class AuthController {
     @Autowired
     UserService userService;
 
-
-    @PostMapping("/public/signin")
+    @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         Authentication authentication;
         try {

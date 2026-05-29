@@ -1,6 +1,7 @@
 package com.jupitters.secure_notes.controller;
 
 import com.jupitters.secure_notes.dto.request.LoginRequest;
+import com.jupitters.secure_notes.dto.request.SignupRequest;
 import com.jupitters.secure_notes.dto.response.LoginResponse;
 import com.jupitters.secure_notes.models.AppRole;
 import com.jupitters.secure_notes.models.Role;

@@ -66,6 +66,9 @@ public class SecurityConfig {
                 UsernamePasswordAuthenticationFilter.class);
         http.httpBasic(withDefaults());
         http.csrf(AbstractHttpConfigurer::disable);
+        http.oauth2Login(oauth2 -> {
+            oauth2.defaultSuccessUrl("/home");
+        });
         return http.build();
     }
 
